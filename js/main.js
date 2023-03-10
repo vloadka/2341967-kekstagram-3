@@ -6,13 +6,13 @@ function randomNumber(min, max) {
     return('min значение не может быть больше max');
   }
   if (max === min) {
-    return max
+    return max;
   }
   return Math.floor(Math.random()*(max-min+1))+min;
 }
 
 
-function lengthStringСheck (string, maxLength){
+function lengthStringСheck(string, maxLength){
    return string.length <= maxLength;
 }
 
