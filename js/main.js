@@ -25,18 +25,15 @@ const DESCRIPTIONS_COUNT = 25;
 let idNumber = 1;
 let urlNumber = 1;
 
-const getRandomArrayElement = (elements) => {
-  return elements[getRandomPositiveInteger(0, elements.length - 1)]
-};
+const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
-const createDescription = () => {
-return{
+const createDescription = () => ({
   id: idNumber++ ,
   url: `photos/${urlNumber++}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomPositiveInteger(15,200),
   comments: getRandomPositiveInteger(0, 200)
-}};
+});
 
 const arrayOfDescription = Array.from({length: DESCRIPTIONS_COUNT}, createDescription);
-console.log(arrayOfDescription);
+arrayOfDescription();
