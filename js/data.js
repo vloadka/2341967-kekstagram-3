@@ -27,3 +27,4 @@ const arrayOfDescription = () =>  Array.from({length: DESCRIPTIONS_COUNT}, creat
 //arrayOfDescription();
 
 export {arrayOfDescription};
+//Задание 7 часть 2
