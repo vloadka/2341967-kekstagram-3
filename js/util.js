@@ -6,9 +6,7 @@ const getRandomPositiveInteger = (a, b) => {
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
-getRandomPositiveInteger(0,10);
 
-const lengthStringСheck = (string, maxLength) => string.length <= maxLength;
-lengthStringСheck('123',4);
+const lsStringLenghtGreateThan = (string, maxLength) => string.length <= maxLength;
 
-export{getRandomPositiveInteger, lengthStringСheck};
+export{getRandomPositiveInteger, lsStringLenghtGreateThan};

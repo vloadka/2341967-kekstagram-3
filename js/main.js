@@ -1,6 +1,7 @@
-import './util.js';
-import {arrayOfDescription} from './data.js';
+import {createDescriptions} from './data.js';
+import { drawMinisPhoto } from './mini-photo.js';
 
-arrayOfDescription();
+const descriptions = createDescriptions();
+drawMinisPhoto(descriptions);
 
 
