@@ -14,7 +14,7 @@ const drawMinisPhoto = (photos) => {
     comments.textContent = photo.comments;
     likes.textContent = photo.likes;
     fragment.appendChild(newPicture);
-   }
-   pictures.append(fragment);
-}
+  }
+  pictures.append(fragment);
+};
 export {drawMinisPhoto};
