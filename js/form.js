@@ -62,17 +62,16 @@ scaleControlBiggerButton.addEventListener('click', makeBigger);
 const effectsButtonsArray = document.querySelectorAll('.effects__radio');
 
 const addEffect = (effect) => {
-  const classList = imgUploadPreview.classList.toString().split('');
-  const classToDelete = classList.find((el) => el.includes('effects__preview--'));
-  imgUploadPreview.classList.remove(classToDelete);
+  const classes = Array.from(imgUploadPreview.classList);
+
+  const classesToDelete = classes.filter((x) => x.startsWith('effects__preview--'));
+  classesToDelete.forEach((x) => imgUploadPreview.classList.remove(x));
 
   const className = `effects__preview--${effect}`;
   imgUploadPreview.classList.add(className);
 };
 
-for (let i = 0; i < effectsButtonsArray.length; i++) {
-  const button = effectsButtonsArray[i];
+for (const button of effectsButtonsArray) {
   button.addEventListener('click', () => addEffect(button.value));
 }
-
 
