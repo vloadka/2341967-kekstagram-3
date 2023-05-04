@@ -1,17 +1,24 @@
+import { setScaleForImg, addEffect } from './effects.js';
 const uploadFileButton = document.querySelector('.img-upload__input');
 const uploadCancelButton = document.querySelector('.img-upload__cancel');
+const formElement = document.querySelector('.img-upload__form');
+const textHashtags = formElement.querySelector('.text__hashtags');
+const textDescription = formElement.querySelector('.text__description');
+const uploadFile = formElement.querySelector('#upload-file');
+const uploadButton = document.querySelector('#upload-submit');
+const scaleControlValue = document.querySelector('.scale__control--value');
+const overlayElement = document.querySelector('.img-upload__overlay');
 
 const handlerOpen = () => {
-  const overlayElement = document.querySelector('.img-upload__overlay');
   overlayElement.classList.remove('hidden');
   document.body.classList.add('modal_open');
   setScaleForImg(100);
 };
 
 const handlerClose = () => {
-  const overlayElement = document.querySelector('.img-upload__overlay');
   overlayElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
+  clearForm();
 };
 
 document.addEventListener('keydown', (e) => {
@@ -20,58 +27,64 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-uploadFileButton.addEventListener('change', handlerOpen);
-uploadCancelButton.addEventListener('click', handlerClose);
+// ! 3
 
-const scaleControlSmallerButton = document.querySelector('.scale__control--smaller');
-const scaleControlBiggerButton = document.querySelector('.scale__control--bigger');
-const imgUploadPreview = document.querySelector('.img-upload__preview');
-const scaleControlValue = document.querySelector('.scale__control--value');
-imgUploadPreview.classList.add('effects__preview--none');
-
-function setScaleForImg(scale) {
-  scaleControlValue.value = `${scale  }%`;
-  imgUploadPreview.style.transform = `scale(${  scale / 100  })`;
+function clearForm() {
+  addEffect('none');
+  scaleControlValue.value = '100%';
+  textHashtags.value = '';
+  textDescription.value = '';
+  uploadFile.value = null;
 }
 
-const makeSmaller = () => {
-  let prev = scaleControlValue.value;
-  prev = +prev.substr(0, prev.length - 1);
+const openTemplate = (className) => {
+  const closeTemplate = () => {
+    document.querySelector(`.${  className}`).remove();
+  };
+  const template = document
+    .querySelector(`#${  className}`)
+    .content.cloneNode(true);
+  const button = template.querySelector(`.${className}__button`);
+  const overlay = template.querySelector(`.${  className}`);
+  const card = template.querySelector(`.${className}__inner`);
+  document.body.append(template);
 
-  if (prev > 25) {
-    prev -= 25;
-  }
-  setScaleForImg(prev);
+  card.addEventListener('click', (e) => e.stopPropagation());
+  overlay.addEventListener('click', closeTemplate);
+  button.addEventListener('click', closeTemplate);
+  document.addEventListener('keydown', (e) => {
+    if (e.keyCode === 27) {
+      closeTemplate();
+    }
+  });
 };
 
-const makeBigger = () => {
-  let prev = scaleControlValue.value;
-  prev = +prev.substr(0, prev.length - 1);
+const handleSubmit = (e) => {
+  e.preventDefault();
 
-  if (prev < 100) {
-    prev += 25;
-  }
-  setScaleForImg(prev);
+  uploadButton.disabled = true;
+
+  const formData = new FormData(formElement);
+
+  fetch('https://27.javascript.pages.academy/kekstagram-simple', {
+    method: 'POST',
+    body: formData,
+  })
+    .then((response) => {
+      if (response.ok) {
+        handlerClose();
+        clearForm();
+        openTemplate('success');
+      } else {
+        handlerClose();
+        openTemplate('error');
+      }
+    })
+    .then(() => (uploadButton.disabled = false));
 };
 
-scaleControlSmallerButton.addEventListener('click', makeSmaller);
-scaleControlBiggerButton.addEventListener('click', makeBigger);
-
-//effects
-
-const effectsButtonsArray = document.querySelectorAll('.effects__radio');
-
-const addEffect = (effect) => {
-  const classes = Array.from(imgUploadPreview.classList);
-
-  const classesToDelete = classes.filter((x) => x.startsWith('effects__preview--'));
-  classesToDelete.forEach((x) => imgUploadPreview.classList.remove(x));
-
-  const className = `effects__preview--${effect}`;
-  imgUploadPreview.classList.add(className);
+export const addFormListeners = () => {
+  uploadFileButton.addEventListener('change', handlerOpen);
+  uploadCancelButton.addEventListener('click', handlerClose);
+  formElement.addEventListener('submit', handleSubmit);
 };
-
-for (const button of effectsButtonsArray) {
-  button.addEventListener('click', () => addEffect(button.value));
-}
-
