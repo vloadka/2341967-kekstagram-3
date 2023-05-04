@@ -1,8 +1,10 @@
-import './form.js';
-import {createDescriptions} from './data.js';
+import { createDescriptions } from './data.js';
 import { drawMinisPhoto } from './mini-photo.js';
+import { addEffectListeners } from './effects.js';
+import { addFormListeners } from './form.js';
+import { createSlider } from './slider.js';
 
-const descriptions = createDescriptions();
-drawMinisPhoto(descriptions);
-
-
+createDescriptions().then((data) => drawMinisPhoto(data));
+createSlider();
+addFormListeners();
+addEffectListeners();
