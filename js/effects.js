@@ -1,10 +1,10 @@
 import { updateSliderValue } from './slider.js';
 const scaleControlSmallerButton = document.querySelector('.scale__control--smaller');
 const scaleControlBiggerButton = document.querySelector('.scale__control--bigger');
-
+const slider = document.querySelector('.effect-level');
 const imgUploadPreview = document.querySelector('.img-upload__preview');
 const scaleControlValue = document.querySelector('.scale__control--value');
-imgUploadPreview.classList.add('effects__preview--none');
+
 
 export function setScaleForImg(scale) {
   scaleControlValue.value = `${scale}%`;
@@ -35,6 +35,8 @@ const makeBigger = () => {
 const effectsButtonsArray = document.querySelectorAll('.effects__radio');
 
 export const addEffect = (effect) => {
+
+
   const classes = Array.from(imgUploadPreview.classList);
 
   const classesToDelete = classes.filter((x) =>
@@ -45,7 +47,13 @@ export const addEffect = (effect) => {
   const className = `effects__preview--${effect}`;
   imgUploadPreview.classList.add(className);
 
-  updateSliderValue(80);
+  if( effect === 'none') {
+    slider.style.display = 'none';
+    updateSliderValue(0);
+  } else {
+    slider.style.display = 'block';
+    updateSliderValue(100);
+  }
 };
 
 export function addEffectListeners() {

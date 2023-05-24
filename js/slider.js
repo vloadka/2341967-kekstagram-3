@@ -1,10 +1,11 @@
 import noUiSlider from '../nouisliderNEW/dist/nouislider.mjs';
 const slider = document.querySelector('.effect-level__slider');
 const imgUploadPreview = document.querySelector('.img-upload__preview');
+const rangeInput = document.querySelector('.effect-level__value');
 
 const createSlider = () => {
   noUiSlider.create(slider, {
-    start: [80],
+    start: [100],
     range: {
       min: [0],
       max: [100],
@@ -19,9 +20,11 @@ const createSlider = () => {
 
 export function updateSliderValue(value) {
   slider.noUiSlider.set(value);
+  rangeInput.value = value;
 }
 
 function updateEffect(value) {
+  rangeInput.value = Math.round(+value);
   let effectName = Array.from(imgUploadPreview.classList).find((el) =>
     el.startsWith('effects__preview--')
   );

@@ -13,6 +13,7 @@ const handlerOpen = () => {
   overlayElement.classList.remove('hidden');
   document.body.classList.add('modal_open');
   setScaleForImg(100);
+  addEffect('none');
 };
 
 const handlerClose = () => {
